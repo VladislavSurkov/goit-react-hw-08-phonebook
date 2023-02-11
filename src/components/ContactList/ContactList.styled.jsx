@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 
 export const Contacts = styled.ul`
+  max-width: 800px;
   margin: 0 auto;
   margin-top: 30px;
   display: flex;
@@ -30,7 +31,7 @@ export const Btn = styled.button`
   flex-basis: 15%;
   font-size: 18px;
   font-weight: 500;
-  color: #6a9bd8;
+  color: var(--accent-btn);
   background-color: transparent;
   border-radius: 5px;
   border: none;
@@ -38,7 +39,7 @@ export const Btn = styled.button`
   cursor: pointer;
   transition: all 250ms ease-in-out;
   :hover {
-    color: #fff;
-    background-color: #6a9bd8;
+    color: var(--accent);
+    background-color: var(--accent-btn);
   }
 `;

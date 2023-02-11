@@ -1,14 +1,12 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { addContact, getContacts } from '../../redux/contactsFetch';
+import { useContacts } from '../../hooks/useHooks';
 import { Form, Input, Btn } from './ContactForm.styled';
-
+import { infoToast, successToast } from '../Toasts';
 
 export const ContactForm = () => {
   const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
-  const contacts = useSelector(getContacts);
-  const dispatch = useDispatch();
+  const [number, setNumber] = useState('');
+  const { contacts, inAddContact } = useContacts();
 
   const handleChange = e => {
     const { name, value } = e.target;
@@ -16,8 +14,8 @@ export const ContactForm = () => {
       case 'name':
         setName(value);
         break;
-      case 'phone':
-        setPhone(value);
+      case 'number':
+        setNumber(value);
         break;
       default:
         break;
@@ -26,21 +24,17 @@ export const ContactForm = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    const contact = {
-      name,
-      phone,
-    };
-    const enterContacts =  contacts.some(
-      i =>
-        i.name.toLowerCase() === contact.name.toLowerCase() ||
-        i.phone === contact.phone
-    )
-      enterContacts
-        ? alert(`${name} is already in contacts`)
-        : dispatch(addContact(contact));
+
+    const enterContacts = contacts.some(
+      i => i.name.toLowerCase() === name.toLowerCase() || i.number === number
+    );
+    enterContacts
+      ? infoToast(`${name} is already in contacts`)
+      : inAddContact({ name, number });
+    !enterContacts && successToast('The contact is in the list!');
 
     setName('');
-    setPhone('');
+    setNumber('');
   };
 
   return (
@@ -58,8 +52,8 @@ export const ContactForm = () => {
 
       <Input
         type="tel"
-        name="phone"
-        value={phone}
+        name="number"
+        value={number}
         onChange={handleChange}
         placeholder="number"
         pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
