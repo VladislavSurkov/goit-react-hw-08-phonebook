@@ -46,7 +46,7 @@ const Register = () => {
     <RegContainer>
       <RegTitle>Registration</RegTitle>
       <FormRegContainer onSubmit={handleSubmit}>
-        <input
+        <RegInput
           type="text"
           name="name"
           value={name}
